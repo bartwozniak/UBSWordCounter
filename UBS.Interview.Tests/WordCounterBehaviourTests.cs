@@ -47,16 +47,34 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void TrailingAndLeadingNonWordCharactersAreNotPartOfWords()
+		public void TrailingPunctuationCharactersAreNotPartOfWords()
 		{
-			var wordCounts = WordCounter.CountWords("/some!@ !'strange%$ :;sentence-");
+			var wordCounts = WordCounter.CountWords("some.,. !'strange%$?! :;sentence- *what.?0");
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "some", Count = 1 },
-				new WordCount { Word = "strange", Count = 1 },
-				new WordCount { Word = "sentence", Count = 1 }
+				new WordCount { Word = "!'strange%$", Count = 1 },
+				new WordCount { Word = ":;sentence", Count = 1 },
+				new WordCount { Word = "*what.?0", Count = 1 }
 			};
 			CollectionAssert.AreEquivalent(expectedOutput, wordCounts, 
-				"Not all leading or trailing non-word characters have been removed.");
+				"Not all trailing punctuation characters have been removed.");
+		}
+
+		[Test]
+		public void LeadingPunctuationCharactersArePartOfWords()
+		{
+			var wordCounts = WordCounter.CountWords("We all love .Net and C#!");
+			var expectedOutput = new HashSet<WordCount>() {
+				new WordCount { Word = "we", Count = 1 },
+				new WordCount { Word = "all", Count = 1 },
+				new WordCount { Word = "love", Count = 1 },
+				new WordCount { Word = ".net", Count = 1 },
+				new WordCount { Word = "and", Count = 1 },
+				new WordCount { Word = "c#", Count = 1 }
+			};
+			CollectionAssert.AreEquivalent(expectedOutput, wordCounts, 
+				"Not all leading punctuation characters have been persisted.");
+
 		}
 
 		[Test]
