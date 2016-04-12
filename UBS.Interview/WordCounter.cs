@@ -10,7 +10,10 @@ namespace UBS.Interview
 	{
 		public static IEnumerable<WordCount> CountWords(string sentence)
 		{
-			throw new NotImplementedException();
+			return sentence
+				.Split(new Char [] {' '}, StringSplitOptions.RemoveEmptyEntries)
+				.GroupBy(word => word.ToLowerInvariant())
+				.Select(group => new WordCount { Word = group.Key, Count = group.Count() });
 		}
 	}
 }
