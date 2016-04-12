@@ -9,13 +9,15 @@ namespace UBS.Interview.Tests
 		[Test]
 		public void EmptyStringIsValid()
 		{
-			Assert.Fail();
+			var wordCounts = WordCounter.CountWords(string.Empty);
+			CollectionAssert.IsEmpty(wordCounts);
 		}
 
 		[Test]
 		public void ExceptionIsThrownOnNullInput()
 		{
-			Assert.Fail();
+			Assert.Throws<ApplicationException>(() => WordCounter.CountWords(null), 
+				"ApplicationException should be thrown when input is null.");
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace UBS.Interview
 	{
 		public static IEnumerable<WordCount> CountWords(string sentence)
 		{
-			return new List<WordCount>();
+			throw new NotImplementedException();
 		}
 	}
 }
