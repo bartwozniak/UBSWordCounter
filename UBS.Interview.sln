@@ -1,6 +1,6 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2012
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UBS.Interview", "UBS.Interview\UBS.Interview.csproj", "{9EB6DCA0-FF32-11E5-9955-BD639A30021A}"
@@ -14,12 +14,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9EB703
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UBS.Interview.Tests", "UBS.Interview.Tests\UBS.Interview.Tests.csproj", "{9EB703B1-FF32-11E5-9955-BD639A30021A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UBS.Interview.Spec", "UBS.Interview.Spec\UBS.Interview.Spec.csproj", "{2C66E830-CFA4-4ECF-B437-7BC9C4B24327}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C66E830-CFA4-4ECF-B437-7BC9C4B24327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C66E830-CFA4-4ECF-B437-7BC9C4B24327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C66E830-CFA4-4ECF-B437-7BC9C4B24327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C66E830-CFA4-4ECF-B437-7BC9C4B24327}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9EB6DCA0-FF32-11E5-9955-BD639A30021A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9EB6DCA0-FF32-11E5-9955-BD639A30021A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EB6DCA0-FF32-11E5-9955-BD639A30021A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -28,6 +34,16 @@ Global
 		{9EB703B1-FF32-11E5-9955-BD639A30021A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EB703B1-FF32-11E5-9955-BD639A30021A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EB703B1-FF32-11E5-9955-BD639A30021A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.VersionControlPolicy = $2
+		$2.inheritsSet = Mono
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
