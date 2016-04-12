@@ -15,19 +15,21 @@ namespace UBS.Interview.Spec
 		[Given ("a sentence (.*)")]
 		public void GivenASentence(string sentence)
 		{
-			ScenarioContext.Current.Pending();
+			ScenarioContext.Current["sentence"] = sentence;
 		}
 
 		[When ("the program is run")]
 		public void WhenTheProgramIsRun()
 		{
-			ScenarioContext.Current.Pending();
+			var result = WordCounter.CountWords((string) ScenarioContext.Current["sentence"]);
+			ScenarioContext.Current.Set<IEnumerable<WordCount>>(result);
 		}
 
 		[Then ("the result should be")]
 		public void ThenTheResultShouldBe (Table result)
 		{
-			ScenarioContext.Current.Pending();
+			var wordCounts = ScenarioContext.Current.Get<IEnumerable<WordCount>>();
+			result.CompareToSet<WordCount>(wordCounts);
 		}
 	}
 }

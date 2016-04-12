@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace UBS.Interview
 {
-	public class WordCounter
+	public static class WordCounter
 	{
-		public WordCounter ()
+		public static IEnumerable<WordCount> CountWords(string sentence)
 		{
+			return new List<WordCount>();
 		}
 	}
 }
