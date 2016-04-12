@@ -65,7 +65,7 @@ namespace UBS.Interview.Tests
 			var sentence = "Some sentence\twith\nvarious separators.";
 			var wordCounts = WordCounter.CountWords(sentence);
 			var numberOfSeparators = sentence.ToCharArray().Where(Char.IsSeparator).Count();
-			Assert.AreSame(numberOfSeparators + 1, wordCounts.Count(), 
+			Assert.AreEqual(numberOfSeparators + 1, wordCounts.Count(), 
 				"The number of words is not equal to the number of separators + 1");
 		}
 
@@ -105,19 +105,32 @@ namespace UBS.Interview.Tests
 		[Test]
 		public void EveryWordIsCounted()
 		{
-			Assert.Fail();
+			var sentence = "There are five words here.";
+			var wordCounts = WordCounter.CountWords(sentence);
+			var numOfWordsCounted = wordCounts.Select(wc => wc.Count).Sum();
+			Assert.AreEqual(5, numOfWordsCounted, "The number of words counted is incorrect.");
 		}
 
 		[Test]
 		public void InnerWordPunctuationIsTreatedAsPartOfWord() 
 		{
-			Assert.Fail();
+			var sentence = "Some proper nouns, like This?IsMade!Up, may be a company name or a company-like entity.";
+			var wordCounts = WordCounter.CountWords(sentence);
+			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "this?ismade!up"), 
+				"The word with non-word characters inside was not returned.");
+			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "company-like"), 
+				"The word with a hyphen characters inside was not returned.");
 		}
 
 		[Test]
 		public void NumbersAreWords()
 		{
-			Assert.Fail();
+			var sentence = "Number 10 is also a word and so is this10.";
+			var wordCounts = WordCounter.CountWords(sentence);
+			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "10"), 
+				"The number 10 was not returned.");
+			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "this10"), 
+				"The word this10 was not returned.");
 		}
     }
 }
