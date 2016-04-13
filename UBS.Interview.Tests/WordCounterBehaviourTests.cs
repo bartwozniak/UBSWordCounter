@@ -139,5 +139,24 @@ namespace UBS.Interview.Tests
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "this10"), 
 				"The word this10 was not returned.");
 		}
+
+		[Test]
+		public void BracesAndQuotesAreRemovedFromSentence()
+		{
+			var sentence = "\"Quotes (or braces) are not part of words.\"";
+			var wordCounts = WordCounter.CountWords(sentence);
+			var expectedOutput = new HashSet<WordCount>() {
+				new WordCount { Word = "quotes", Count = 1 },
+				new WordCount { Word = "or", Count = 1 },
+				new WordCount { Word = "braces", Count = 1 },
+				new WordCount { Word = "are", Count = 1 },
+				new WordCount { Word = "not", Count = 1 },
+				new WordCount { Word = "part", Count = 1 },
+				new WordCount { Word = "of", Count = 1 },
+				new WordCount { Word = "words", Count = 1 }
+			};
+			CollectionAssert.AreEquivalent(expectedOutput, wordCounts, 
+				"Some quotes or braces have been included in the output.");
+		}
     }
 }
