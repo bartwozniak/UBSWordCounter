@@ -119,7 +119,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void InnerWordPunctuationIsTreatedAsPartOfWord() 
+		public void InnerWordPunctuationIsPartOfWords() 
 		{
 			var sentence = "Some proper nouns, like This?IsMade!Up, may be a company name or a company-like entity.";
 			var wordCounts = WordCounter.CountWords(sentence);

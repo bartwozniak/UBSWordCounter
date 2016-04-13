@@ -27,7 +27,7 @@ namespace UBS.Interview
 			return containsWordCharacter.IsMatch(word);
 		}
 
-		private static string SanitizeSeparators(string sentence) 
+		private static string SanitizeWhitespaces(string sentence) 
 		{
 			if (sentence == null)
 				throw new ApplicationException ("You asked to sanitize whitespace in a null string!");
@@ -41,7 +41,7 @@ namespace UBS.Interview
 			if (sentence == null)
 				throw new ApplicationException ("You asked to count words in a null string!");
 
-			return SanitizeSeparators(sentence)
+			return SanitizeWhitespaces(sentence)
 				.Split(new Char [] {' '}, StringSplitOptions.RemoveEmptyEntries)
 				.GroupBy(word => RemoveTrailingPunctuation(word.ToLowerInvariant()))
 				.Where(group => IsWord(group.Key))
