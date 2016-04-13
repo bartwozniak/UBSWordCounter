@@ -3,7 +3,6 @@
 	I want to know the number of times each word appears in a sentence
 	So that I can make sure I'm not repeating myself
 	
-@mytag
 Scenario: Count word occurrences
 	Given a sentence "This is a statement, and so is this."
 	When the program is run

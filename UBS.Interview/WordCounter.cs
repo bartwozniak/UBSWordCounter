@@ -45,6 +45,11 @@ namespace UBS.Interview
 			return allBracesAndQuotes.Replace(sentence, String.Empty);
 		}
 
+		/// <summary>
+		/// Counts the words in a sentence.
+		/// </summary>
+		/// <returns>Enumeration of word counts.</returns>
+		/// <param name="sentence">Sentence to count word occurrences in.</param>
 		public static IEnumerable<WordCount> CountWords(string sentence)
 		{
 			if (sentence == null)

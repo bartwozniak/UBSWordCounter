@@ -66,17 +66,14 @@ namespace UBS.Interview.Spec
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Count word occurrences")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
         public virtual void CountWordOccurrences()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Count word occurrences", new string[]
-                {
-                        "mytag"});
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Count word occurrences", ((string[])(null)));
+#line 6
 this.ScenarioSetup(scenarioInfo);
-#line 8
+#line 7
  testRunner.Given("a sentence \"This is a statement, and so is this.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
+#line 8
  testRunner.When("the program is run", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[]
@@ -107,7 +104,7 @@ this.ScenarioSetup(scenarioInfo);
                 {
                         "so",
                         "1"});
-#line 10
+#line 9
  testRunner.Then("the result should be", ((string)(null)), table1, "Then ");
 #line hidden
             this.ScenarioCleanup();
