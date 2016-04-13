@@ -10,8 +10,12 @@ namespace UBS.Interview
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello world!");
-            Console.ReadLine();
+			var input = "This is This?IsMade!Up inner-word punctuation.";
+			var output = WordCounter.CountWords(input);
+			foreach (var wc in output)
+			{
+				Console.WriteLine(wc);
+			}
         }
     }
 }
