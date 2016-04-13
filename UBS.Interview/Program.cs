@@ -10,7 +10,7 @@ namespace UBS.Interview
     {
         static void Main(string[] args)
         {
-			var input = "This is This?IsMade!Up inner-word punctuation.";
+			var input = "Some sentence\twith\nvarious separators.";
 			var output = WordCounter.CountWords(input);
 			foreach (var wc in output)
 			{

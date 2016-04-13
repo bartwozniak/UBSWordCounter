@@ -26,18 +26,6 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		[Ignore]
-		public void PunctuationIsRemovedFromWords()
-		{
-			var wordCounts = WordCounter.CountWords("A sentence in this test has punctuation, which needs to be removed!");
-			CollectionAssert.IsNotEmpty(wordCounts);
-			Assert.False(
-				wordCounts.SelectMany(
-					wc => wc.Word.ToCharArray()).Any(
-						c => Char.IsPunctuation(c)), "All punctuation has not been removed.");
-		}
-
-		[Test]
 		public void EachWordIsReportedOnlyOnce()
 		{
 			var repeatedWords = String.Join(" ", Enumerable.Repeat("word some other", 10));
@@ -64,13 +52,12 @@ namespace UBS.Interview.Tests
 		[Test]
 		public void LeadingPunctuationCharactersArePartOfWords()
 		{
-			var wordCounts = WordCounter.CountWords("We all love .Net, C# and #tags!");
+			var wordCounts = WordCounter.CountWords("We all love .Net and #tags!");
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "we", Count = 1 },
 				new WordCount { Word = "all", Count = 1 },
 				new WordCount { Word = "love", Count = 1 },
 				new WordCount { Word = ".net", Count = 1 },
-				new WordCount { Word = "c#", Count = 1 },
 				new WordCount { Word = "and", Count = 1 },
 				new WordCount { Word = "#tags", Count = 1 }
 			};
@@ -80,17 +67,17 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void WordsAreDelimitedBySeparators()
+		public void WordsAreDelimitedByWhitespaces()
 		{
 			var sentence = "Some sentence\twith\nvarious separators.";
 			var wordCounts = WordCounter.CountWords(sentence);
-			var numberOfSeparators = sentence.ToCharArray().Where(Char.IsSeparator).Count();
+			var numberOfSeparators = sentence.ToCharArray().Where(Char.IsWhiteSpace).Count();
 			Assert.AreEqual(numberOfSeparators + 1, wordCounts.Count(), 
 				"The number of words is not equal to the number of separators + 1");
 		}
 
 		[Test]
-		public void WordsCanBeDelimitedByMultipleSeparators()
+		public void WordsCanBeDelimitedByMultipleWhitespaces()
 		{
 			var sentence = "Is this  a    sentence\t\t\twith\n\n\nvarious  . ,   separators?";
 			var wordCounts = WordCounter.CountWords(sentence);
