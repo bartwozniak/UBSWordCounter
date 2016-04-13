@@ -95,7 +95,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void NonWordCharactersDoNotMakeWords()
+		public void NonWordCharactersOnlyDoNotMakeWords()
 		{
 			var wordCounts = WordCounter.CountWords("This ~£!@#}{ is not a word !@#$%%^&^*?:>");
 			var expectedOutput = new HashSet<WordCount>() {
