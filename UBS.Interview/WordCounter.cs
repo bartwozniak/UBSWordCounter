@@ -36,12 +36,21 @@ namespace UBS.Interview
 			return allSeparatorCharacters.Replace(sentence, " ");
 		}
 
+		private static string RemoveBracesAndQuotes(string sentence)
+		{
+			if (sentence == null)
+				throw new ApplicationException ("You asked to remove braces and quotes from a null string!");
+
+			var allBracesAndQuotes = new Regex(@"[\p{Ps}\p{Pe}\p{Pi}\p{Pf}""']");
+			return allBracesAndQuotes.Replace(sentence, String.Empty);
+		}
+
 		public static IEnumerable<WordCount> CountWords(string sentence)
 		{
 			if (sentence == null)
 				throw new ApplicationException ("You asked to count words in a null string!");
 
-			return SanitizeWhitespaces(sentence)
+			return RemoveBracesAndQuotes(SanitizeWhitespaces(sentence))
 				.Split(new Char [] {' '}, StringSplitOptions.RemoveEmptyEntries)
 				.GroupBy(word => RemoveTrailingPunctuation(word.ToLowerInvariant()))
 				.Where(group => IsWord(group.Key))

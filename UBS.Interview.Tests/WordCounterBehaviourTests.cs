@@ -38,10 +38,10 @@ namespace UBS.Interview.Tests
 		[Test]
 		public void TrailingPunctuationCharactersAreNotPartOfWords()
 		{
-			var wordCounts = WordCounter.CountWords("some.,. !'strange%$?! :;sentence- *what.?0");
+			var wordCounts = WordCounter.CountWords("some.,. !strange%$?! :;sentence- *what.?0");
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "some", Count = 1 },
-				new WordCount { Word = "!'strange%$", Count = 1 },
+				new WordCount { Word = "!strange%$", Count = 1 },
 				new WordCount { Word = ":;sentence", Count = 1 },
 				new WordCount { Word = "*what.?0", Count = 1 }
 			};
