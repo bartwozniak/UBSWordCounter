@@ -8,41 +8,40 @@ namespace UBS.Interview
 {
 	public static class WordCounter
 	{
-		private static string RemoveTrailingPunctuation(string word)
+		private static bool ContainsWordCharacter(string word)
 		{
 			if (word == null)
-				throw new ApplicationException ("You asked to remove trailing punctuation from a null string!");
-
-			var removeTrailingPunctuation = new Regex(@"\p{P}+$");
-			return removeTrailingPunctuation.Replace(word, String.Empty);
-			//return new string(word.ToCharArray().Reverse().SkipWhile(Char.IsPunctuation).Reverse().ToArray());
-		}
-
-		private static bool IsWord(string word)
-		{
-			if (word == null)
-				throw new ApplicationException ("You asked if a null string is a word!");
+				throw new ApplicationException("You asked if a null string is a word!");
 			
 			var containsWordCharacter = new Regex(@"\w");
 			return containsWordCharacter.IsMatch(word);
 		}
 
-		private static string SanitizeWhitespaces(string sentence) 
+		private static string ConvertAllWhitespacesToSingleSpaceCharacter(string sentence) 
 		{
 			if (sentence == null)
-				throw new ApplicationException ("You asked to sanitize whitespace in a null string!");
+				throw new ApplicationException("You asked to sanitize whitespace in a null string!");
 			
 			var allSeparatorCharacters = new Regex(@"\s+");
 			return allSeparatorCharacters.Replace(sentence, " ");
 		}
 
-		private static string RemoveBracesAndQuotes(string sentence)
+		private static string RemoveAllPunctuationApartFromHyphens(string word)
 		{
-			if (sentence == null)
-				throw new ApplicationException ("You asked to remove braces and quotes from a null string!");
+			if (word == null)
+				throw new ApplicationException("You asked to remove punctuation from a null string!");
 
-			var allBracesAndQuotes = new Regex(@"[\p{Ps}\p{Pe}\p{Pi}\p{Pf}""']");
-			return allBracesAndQuotes.Replace(sentence, String.Empty);
+			var removePunctuationApartFromHyphens = new Regex(@"[^\w-]");
+			return removePunctuationApartFromHyphens.Replace(word, string.Empty);
+		}
+
+		private static string RemoveHyphensThatAreNotInsideWords(string word)
+		{
+			if (word == null)
+				throw new ApplicationException("You asked to remove hyphens from a null string!");
+
+			var removeNonInnerWordHyphens = new Regex(@"^(-(?=\w))|(-$)");
+			return removeNonInnerWordHyphens.Replace(word, string.Empty);
 		}
 
 		/// <summary>
@@ -55,10 +54,10 @@ namespace UBS.Interview
 			if (sentence == null)
 				throw new ApplicationException ("You asked to count words in a null string!");
 
-			return RemoveBracesAndQuotes(SanitizeWhitespaces(sentence))
+			return ConvertAllWhitespacesToSingleSpaceCharacter(sentence)
 				.Split(new Char [] {' '}, StringSplitOptions.RemoveEmptyEntries)
-				.GroupBy(word => RemoveTrailingPunctuation(word.ToLowerInvariant()))
-				.Where(group => IsWord(group.Key))
+				.GroupBy(word => RemoveHyphensThatAreNotInsideWords(RemoveAllPunctuationApartFromHyphens(word.ToLowerInvariant())))
+				.Where(group => ContainsWordCharacter(group.Key))
 				.Select(group => new WordCount { Word = group.Key, Count = group.Count() });
 		}
 	}

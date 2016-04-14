@@ -120,10 +120,14 @@ namespace UBS.Interview.Tests
 		[Test]
 		public void WhenCountingWordsAllPunctuationIsIgnoredApartFromHyphens()
 		{
-			var sentence = "All punctuation, apart from inner-word hyphens, is ignored!";
+			var sentence = "All punctuation, apart from inner-word hyphens, including negation -10 and dashes - is ignored!";
 			var wordCounts = WordCounter.CountWords(sentence);
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "inner-word"), 
 				"The word with a hyphen characters inside was not returned.");
+			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "10"), 
+				"The number with a negation characters was not returned.");
+			Assert.False(wordCounts.Any(wordCount => wordCount.Word == "-"),
+				"The single dash was returned.");
 			Assert.False(wordCounts.Where(wordCount => wordCount.Word != "inner-word")
 					.Any(wordCount => wordCount.Word.ToCharArray().Where(Char.IsPunctuation).Count() > 0),
 				"Some words were returned that contain punctuation.");
