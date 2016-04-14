@@ -26,6 +26,15 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
+		public void EveryWordIsCounted()
+		{
+			var sentence = "There are five words here.";
+			var wordCounts = WordCounter.CountWords(sentence);
+			var numOfWordsCounted = wordCounts.Select(wc => wc.Count).Sum();
+			Assert.AreEqual(5, numOfWordsCounted, "The number of words counted is incorrect.");
+		}
+
+		[Test]
 		public void EachWordIsReportedOnlyOnce()
 		{
 			var repeatedWords = String.Join(" ", Enumerable.Repeat("word some other", 10));
@@ -36,38 +45,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void TrailingPunctuationCharactersAreRemovedFromWords()
-		{
-			var wordCounts = WordCounter.CountWords("some.,. !strange%$?! :;sentence- *what.?0");
-			var expectedOutput = new HashSet<WordCount>() {
-				new WordCount { Word = "some", Count = 1 },
-				new WordCount { Word = "!strange%$", Count = 1 },
-				new WordCount { Word = ":;sentence", Count = 1 },
-				new WordCount { Word = "*what.?0", Count = 1 }
-			};
-			CollectionAssert.AreEquivalent(expectedOutput, wordCounts, 
-				"Not all trailing punctuation characters have been removed.");
-		}
-
-		[Test]
-		public void LeadingPunctuationCharactersAreNotRemovedFromWords()
-		{
-			var wordCounts = WordCounter.CountWords("We all love .Net and #tags!");
-			var expectedOutput = new HashSet<WordCount>() {
-				new WordCount { Word = "we", Count = 1 },
-				new WordCount { Word = "all", Count = 1 },
-				new WordCount { Word = "love", Count = 1 },
-				new WordCount { Word = ".net", Count = 1 },
-				new WordCount { Word = "and", Count = 1 },
-				new WordCount { Word = "#tags", Count = 1 }
-			};
-			CollectionAssert.AreEquivalent(expectedOutput, wordCounts, 
-				"Not all leading punctuation characters have been persisted.");
-
-		}
-
-		[Test]
-		public void SentenceGetsSplitOnWhitespaces()
+		public void SentencesGetSplitOnWhitespaces()
 		{
 			var sentence = "Some sentence\twith\nvarious separators.";
 			var wordCounts = WordCounter.CountWords(sentence);
@@ -77,7 +55,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void SentenceGetsSplitByMultipleWhitespaces()
+		public void SentencesGetSplitByMultipleWhitespaces()
 		{
 			var sentence = "Is this  a    sentence\t\t\twith\n\n\nvarious  . ,   separators?";
 			var wordCounts = WordCounter.CountWords(sentence);
@@ -110,26 +88,6 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void EveryWordIsCounted()
-		{
-			var sentence = "There are five words here.";
-			var wordCounts = WordCounter.CountWords(sentence);
-			var numOfWordsCounted = wordCounts.Select(wc => wc.Count).Sum();
-			Assert.AreEqual(5, numOfWordsCounted, "The number of words counted is incorrect.");
-		}
-
-		[Test]
-		public void InnerWordPunctuationIsPartOfWords() 
-		{
-			var sentence = "Some proper nouns, like This?IsMade!Up, may be a company name or a company-like entity.";
-			var wordCounts = WordCounter.CountWords(sentence);
-			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "this?ismade!up"), 
-				"The word with non-word characters inside was not returned.");
-			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "company-like"), 
-				"The word with a hyphen characters inside was not returned.");
-		}
-
-		[Test]
 		public void NumbersAreCountedAsWords()
 		{
 			var sentence = "Number 10 is also a word and so is this10.";
@@ -157,6 +115,18 @@ namespace UBS.Interview.Tests
 			};
 			CollectionAssert.AreEquivalent(expectedOutput, wordCounts, 
 				"Some quotes or braces have been included in the output.");
+		}
+
+		[Test]
+		public void WhenCountingWordsAllPunctuationIsIgnoredApartFromHyphens()
+		{
+			var sentence = "All punctuation, apart from inner-word hyphens, is ignored!";
+			var wordCounts = WordCounter.CountWords(sentence);
+			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "inner-word"), 
+				"The word with a hyphen characters inside was not returned.");
+			Assert.False(wordCounts.Where(wordCount => wordCount.Word != "inner-word")
+					.Any(wordCount => wordCount.Word.ToCharArray().Where(Char.IsPunctuation).Count() > 0),
+				"Some words were returned that contain punctuation.");
 		}
     }
 }
