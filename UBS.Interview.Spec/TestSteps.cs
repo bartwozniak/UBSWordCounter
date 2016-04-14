@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using TechTalk.SpecFlow;
@@ -26,7 +25,7 @@ namespace UBS.Interview.Spec
 		}
 
 		[Then ("the result should be")]
-		public void ThenTheResultShouldBe (Table result)
+		public void ThenTheResultShouldBe(Table result)
 		{
 			var wordCounts = ScenarioContext.Current.Get<IEnumerable<WordCount>>();
 			result.CompareToSet<WordCount>(wordCounts);

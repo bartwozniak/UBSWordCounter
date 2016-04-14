@@ -36,7 +36,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void TrailingPunctuationCharactersAreNotPartOfWords()
+		public void TrailingPunctuationCharactersAreRemovedFromWords()
 		{
 			var wordCounts = WordCounter.CountWords("some.,. !strange%$?! :;sentence- *what.?0");
 			var expectedOutput = new HashSet<WordCount>() {
@@ -50,7 +50,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void LeadingPunctuationCharactersArePartOfWords()
+		public void LeadingPunctuationCharactersAreNotRemovedFromWords()
 		{
 			var wordCounts = WordCounter.CountWords("We all love .Net and #tags!");
 			var expectedOutput = new HashSet<WordCount>() {
@@ -67,7 +67,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void WordsAreDelimitedByWhitespaces()
+		public void SentenceGetsSplitOnWhitespaces()
 		{
 			var sentence = "Some sentence\twith\nvarious separators.";
 			var wordCounts = WordCounter.CountWords(sentence);
@@ -77,7 +77,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void WordsCanBeDelimitedByMultipleWhitespaces()
+		public void SentenceGetsSplitByMultipleWhitespaces()
 		{
 			var sentence = "Is this  a    sentence\t\t\twith\n\n\nvarious  . ,   separators?";
 			var wordCounts = WordCounter.CountWords(sentence);
@@ -130,7 +130,7 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void NumbersAreWords()
+		public void NumbersAreCountedAsWords()
 		{
 			var sentence = "Number 10 is also a word and so is this10.";
 			var wordCounts = WordCounter.CountWords(sentence);
