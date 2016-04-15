@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Commandlineparameters>"This is a test input sentence, with some punctuation, some repeated words, some numbers 10 and hyphened-words."</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +52,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordCounter.cs" />
     <Compile Include="WordCount.cs" />
+    <Compile Include="WordCounterBuilder.cs" />
+    <Compile Include="WordCounterTransformations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

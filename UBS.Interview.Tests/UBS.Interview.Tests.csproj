@@ -51,8 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordCounterBehaviourTests.cs" />
-    <Compile Include="WordCounterInputTests.cs" />
+    <Compile Include="UBSWordCounterBehaviourTests.cs" />
+    <Compile Include="WordCounterBuilderTests.cs" />
+    <Compile Include="UBSWordCounterInputTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

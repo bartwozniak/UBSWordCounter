@@ -8,12 +8,20 @@ using UBS.Interview;
 namespace UBS.Interview.Tests
 {
 	[TestFixture]
-    public class WordCounterBehaviourTests
+    public class UBSWordCounterBehaviourTests
     {
+		private WordCounter wordCounter;
+
+		[SetUp]
+		public void InstantiateWordCounter()
+		{
+			wordCounter = WordCounterBuilder.UBSWordCounter();
+		}
+
 		[Test]
 		public void WordCountIsCaseInsensitive()
 		{
-			var wordCounts = WordCounter.CountWords("This Is a Title Case Sentence");
+			var wordCounts = wordCounter.CountWords("This Is a Title Case Sentence");
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "this", Count = 1 },
 				new WordCount { Word = "is", Count = 1 },
@@ -29,7 +37,7 @@ namespace UBS.Interview.Tests
 		public void EveryWordIsCounted()
 		{
 			var sentence = "There are five words here.";
-			var wordCounts = WordCounter.CountWords(sentence);
+			var wordCounts = wordCounter.CountWords(sentence);
 			var numOfWordsCounted = wordCounts.Select(wc => wc.Count).Sum();
 			Assert.AreEqual(5, numOfWordsCounted, "The number of words counted is incorrect.");
 		}
@@ -38,7 +46,7 @@ namespace UBS.Interview.Tests
 		public void EachWordIsReportedOnlyOnce()
 		{
 			var repeatedWords = String.Join(" ", Enumerable.Repeat("word some other", 10));
-			var wordCounts = WordCounter.CountWords(repeatedWords);
+			var wordCounts = wordCounter.CountWords(repeatedWords);
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "word"), "Repeated word was returned more than once.");
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "some"), "Repeated word was returned more than once.");
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "other"), "Repeated word was returned more than once.");
@@ -48,7 +56,7 @@ namespace UBS.Interview.Tests
 		public void SentencesGetSplitOnWhitespaces()
 		{
 			var sentence = "Some sentence\twith\nvarious separators.";
-			var wordCounts = WordCounter.CountWords(sentence);
+			var wordCounts = wordCounter.CountWords(sentence);
 			var numberOfSeparators = sentence.ToCharArray().Where(Char.IsWhiteSpace).Count();
 			Assert.AreEqual(numberOfSeparators + 1, wordCounts.Count(), 
 				"The number of words is not equal to the number of separators + 1");
@@ -58,7 +66,7 @@ namespace UBS.Interview.Tests
 		public void SentencesGetSplitByMultipleWhitespaces()
 		{
 			var sentence = "Is this  a    sentence\t\t\twith\n\n\nvarious  . ,   separators?";
-			var wordCounts = WordCounter.CountWords(sentence);
+			var wordCounts = wordCounter.CountWords(sentence);
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "is", Count = 1 },
 				new WordCount { Word = "this", Count = 1 },
@@ -75,7 +83,7 @@ namespace UBS.Interview.Tests
 		[Test]
 		public void NonWordCharactersOnlyDoNotMakeWords()
 		{
-			var wordCounts = WordCounter.CountWords("This ~£!@#}{ is not a word !@#$%%^&^*?:>");
+			var wordCounts = wordCounter.CountWords("This ~£!@#}{ is not a word !@#$%%^&^*?:>");
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "this", Count = 1 },
 				new WordCount { Word = "is", Count = 1 },
@@ -91,7 +99,7 @@ namespace UBS.Interview.Tests
 		public void NumbersAreCountedAsWords()
 		{
 			var sentence = "Number 10 is also a word and so is this10.";
-			var wordCounts = WordCounter.CountWords(sentence);
+			var wordCounts = wordCounter.CountWords(sentence);
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "10"), 
 				"The number 10 was not returned.");
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "this10"), 
@@ -102,7 +110,7 @@ namespace UBS.Interview.Tests
 		public void BracesAndQuotesAreRemovedFromSentence()
 		{
 			var sentence = "\"Quotes (or braces) are not part of words.\"";
-			var wordCounts = WordCounter.CountWords(sentence);
+			var wordCounts = wordCounter.CountWords(sentence);
 			var expectedOutput = new HashSet<WordCount>() {
 				new WordCount { Word = "quotes", Count = 1 },
 				new WordCount { Word = "or", Count = 1 },
@@ -118,10 +126,10 @@ namespace UBS.Interview.Tests
 		}
 
 		[Test]
-		public void WhenCountingWordsAllPunctuationIsIgnoredApartFromHyphens()
+		public void PunctuationIsIgnoredApartFromInnerWordHyphens()
 		{
 			var sentence = "All punctuation, apart from inner-word hyphens, including negation -10 and dashes - is ignored!";
-			var wordCounts = WordCounter.CountWords(sentence);
+			var wordCounts = wordCounter.CountWords(sentence);
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "inner-word"), 
 				"The word with a hyphen characters inside was not returned.");
 			Assert.DoesNotThrow(() => wordCounts.Single(wc => wc.Word == "10"), 

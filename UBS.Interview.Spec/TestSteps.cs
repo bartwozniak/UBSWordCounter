@@ -20,7 +20,9 @@ namespace UBS.Interview.Spec
 		[When ("the program is run")]
 		public void WhenTheProgramIsRun()
 		{
-			var result = WordCounter.CountWords((string) ScenarioContext.Current["sentence"]);
+			var wordCounter = WordCounterBuilder.UBSWordCounter();
+			
+			var result = wordCounter.CountWords((string) ScenarioContext.Current["sentence"]);
 			ScenarioContext.Current.Set<IEnumerable<WordCount>>(result);
 		}
 

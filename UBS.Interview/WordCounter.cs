@@ -1,47 +1,28 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace UBS.Interview
 {
-	public static class WordCounter
+	public delegate string SentenceSanitizer(string sentence);
+	public delegate string WordSanitizer(string word);
+	public delegate bool WordFilter(string word);
+	public delegate IEnumerable<string> SentenceSplitter(string sentence);
+
+	public class WordCounter
 	{
-		private static bool ContainsWordCharacter(string word)
+		private SentenceSanitizer sentenceSanitizer;
+		private WordSanitizer wordSanitizer;
+		private WordFilter wordFilter;
+		private SentenceSplitter sentenceSplitter;
+
+		internal WordCounter(SentenceSanitizer sentenceSanitizer, WordSanitizer wordSanitizer, 
+			WordFilter wordFilter, SentenceSplitter sentenceSplitter)
 		{
-			if (word == null)
-				throw new ApplicationException("You asked if a null string is a word!");
-			
-			var containsWordCharacter = new Regex(@"\w");
-			return containsWordCharacter.IsMatch(word);
-		}
-
-		private static string ConvertAllWhitespacesToSingleSpaceCharacter(string sentence) 
-		{
-			if (sentence == null)
-				throw new ApplicationException("You asked to sanitize whitespace in a null string!");
-			
-			var allSeparatorCharacters = new Regex(@"\s+");
-			return allSeparatorCharacters.Replace(sentence, " ");
-		}
-
-		private static string RemoveAllPunctuationApartFromHyphens(string word)
-		{
-			if (word == null)
-				throw new ApplicationException("You asked to remove punctuation from a null string!");
-
-			var removePunctuationApartFromHyphens = new Regex(@"[^\w-]");
-			return removePunctuationApartFromHyphens.Replace(word, string.Empty);
-		}
-
-		private static string RemoveHyphensThatAreNotInsideWords(string word)
-		{
-			if (word == null)
-				throw new ApplicationException("You asked to remove hyphens from a null string!");
-
-			var removeNonInnerWordHyphens = new Regex(@"^(-(?=\w))|(-$)");
-			return removeNonInnerWordHyphens.Replace(word, string.Empty);
+			this.sentenceSanitizer = sentenceSanitizer;
+			this.wordSanitizer = wordSanitizer;
+			this.wordFilter = wordFilter;
+			this.sentenceSplitter = sentenceSplitter;
 		}
 
 		/// <summary>
@@ -49,17 +30,25 @@ namespace UBS.Interview
 		/// </summary>
 		/// <returns>Enumeration of word counts.</returns>
 		/// <param name="sentence">Sentence to count word occurrences in.</param>
-		public static IEnumerable<WordCount> CountWords(string sentence)
+		public IEnumerable<WordCount> CountWords(string sentence)
 		{
 			if (sentence == null)
-				throw new ApplicationException ("You asked to count words in a null string!");
+				throw new ApplicationException("You asked to count words in a null string!");
 
-			return ConvertAllWhitespacesToSingleSpaceCharacter(sentence)
-				.Split(new Char [] {' '}, StringSplitOptions.RemoveEmptyEntries)
-				.GroupBy(word => RemoveHyphensThatAreNotInsideWords(RemoveAllPunctuationApartFromHyphens(word.ToLowerInvariant())))
-				.Where(group => ContainsWordCharacter(group.Key))
-				.Select(group => new WordCount { Word = group.Key, Count = group.Count() });
+			// Sanitize the input
+			var sanitizedSentence = this.sentenceSanitizer(sentence);
+
+			// Split the sentence into words
+			var words = this.sentenceSplitter(sanitizedSentence);
+
+			// Sanitize each word
+			var sanitizedWords = words.Select(word => this.wordSanitizer(word));
+
+			// Filter words
+			var wordsToCount = sanitizedWords.Where(word => this.wordFilter(word));
+
+			// Count words
+			return wordsToCount.GroupBy(x => x).Select(group => new WordCount { Word = group.Key, Count = group.Count() });
 		}
 	}
 }
-
