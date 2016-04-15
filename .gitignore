@@ -27,3 +27,7 @@ $RECYCLE.BIN/
 .DS_Store
 *.swp
 
+
+.vscode/settings.json
+
+UBS.Interview.userprefs
