@@ -54,6 +54,7 @@
     <Compile Include="UBSWordCounterBehaviourTests.cs" />
     <Compile Include="WordCounterBuilderTests.cs" />
     <Compile Include="UBSWordCounterInputTests.cs" />
+    <Compile Include="WordCounterTransformationsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

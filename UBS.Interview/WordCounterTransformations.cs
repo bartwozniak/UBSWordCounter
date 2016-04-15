@@ -51,7 +51,7 @@ namespace UBS.Interview
 			if (word == null)
 				throw new ApplicationException("You asked to remove hyphens from a null string!");
 
-			var removeNonInnerWordHyphens = new Regex(@"^(-(?=\w))|(-$)");
+			var removeNonInnerWordHyphens = new Regex(@"^(-+(?=\w))|(-+$)");
 			return removeNonInnerWordHyphens.Replace(word, string.Empty);
 		}
 
