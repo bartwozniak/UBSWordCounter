@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UBS.Interview
+﻿namespace UBS.Interview
 {
 	public struct WordCount
 	{
@@ -13,4 +11,3 @@ namespace UBS.Interview
 		}
 	}
 }
-
